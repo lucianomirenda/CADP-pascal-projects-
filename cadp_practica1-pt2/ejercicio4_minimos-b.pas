@@ -5,9 +5,10 @@ begin
     min1:=32767;
     min2:=32767;
 
-    repeat
-        read(num);
-        
+    read(num);
+
+    while(num<>0)do
+    begin
         if(num<min1)
         then begin
             min2:=min1;
@@ -18,7 +19,8 @@ begin
             min2:= num;
             end;
             
-    until (num = 0);
+        read(num);
+    end;   
 
     writeln('los dos números minimos son: ',min1,' y ',min2);
 
