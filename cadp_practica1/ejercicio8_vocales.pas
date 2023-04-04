@@ -2,32 +2,23 @@ program vocales;
 var 
     i:integer;
     vocal:char;
-    esVocal:boolean;
+    esVocal,noVocal:boolean;
 begin
-    esVocal:= True;
+    noVocal:=True;
     for i:= 1 to 3 do
     begin
         readln(vocal);
-        case vocal of
-        'a': ;
-        'e': ;
-        'i': ;
-        'o': ;
-        'u': ;
-        'A': ;
-        'E': ;
-        'I': ;
-        'O': ;
-        'U': ;
-        else
-            esVocal:=false;
+        esVocal:= ((vocal = 'a') OR (vocal = 'e') OR (vocal = 'i') OR (vocal = 'o') OR (vocal = 'u'));
+        if not(esVocal)then begin
+            noVocal:= false;
         end;
+        
     end;
     
-    if(esVocal)
+    if(noVocal)
     then
         writeln('Los tres caracteres son vocales')
     else   
         writeln('Al menos un caracter no es vocal');
-
 end.
+
