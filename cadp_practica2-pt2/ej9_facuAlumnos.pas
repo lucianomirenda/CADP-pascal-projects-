@@ -43,10 +43,10 @@ begin
     nmmax1:= '';nmmax2:='';
 
     repeat
-        writeln('Ingrese el nombre del alumno: ');
-        readln(nombre);
-        writeln('Ingrese el apellido del alumno: ');
-        readln(apellido);
+        writeln('Ingrese el nombre del alumno: ');               
+        readln(nombre);                                          
+        writeln('Ingrese el apellido del alumno: ');             
+        readln(apellido);                                        
         writeln('Ingrese el número de inscripción del alumno: ');
         readln(insNum);
 
