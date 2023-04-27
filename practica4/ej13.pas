@@ -1,7 +1,7 @@
 program test;
 const 
-	dimLugares = 5;
-	dimAnios = 3;
+	dimLugares = 100;
+	dimAnios = 50;
 type
 	range1 = 1 .. dimLugares;
 	range2 = 1 .. dimAnios;
