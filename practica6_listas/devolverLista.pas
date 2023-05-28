@@ -85,7 +85,23 @@ begin
 		l:= l^.sig;
 	end;
 end;
+procedure nuevaListaAsc(l:lista;a,b:integer;var nl:lista);
+begin
 
+	while((l<>nil)AND(l^.dato < b))do begin
+		if(l^.dato > a)then
+			agregarAdelante(nl,l^.dato);
+		l:=l^.sig;
+	end;
+end;
+procedure nuevaListaDesc(l:lista;a,b:integer;var nl:lista);
+begin
+	while((l<>nil)AND(l^.dato > a))do begin
+		if(l^.dato < b)then
+			agregarAdelante(nl,l^.dato);
+		l:=l^.sig;
+	end;
+end;
 var
 	l,nl:lista;
 	a,b:integer;
@@ -100,7 +116,7 @@ begin
 	writeln('Escribe un número b: ');
 	readln(b);
 	
-	nuevaLista(l,a,b,nl);
+	nuevaListaDesc(l,a,b,nl);
 	imprimirLista(nl);
 	writeln('');
 end.
