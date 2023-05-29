@@ -35,7 +35,7 @@ begin
 	if(v.codigo <> 0)then begin
 		writeln('Ingresa el día');
 		readln(v.dias);
-		writeln('Ingresa el medio de transporte');
+		writeln('Ingresa el medio de transporte: 1. cole 2. cole2 3. tren 4. tren2 5. bici');
 		readln(v.medio);
 	end;
 end;
@@ -105,29 +105,23 @@ begin
 		gasto:=0;
 		bici:=false;otro:=false;
 		mas6viajes:= false;
-		writeln('tuvieja');
-		while(actualCod = l^.pasaje.codigo)do begin
+		while((l<> nil) AND (actualCod = l^.pasaje.codigo))do begin
 			actualDia:= l^.pasaje.dias;
 			cantViajesDia:=0;
-			while((actualDia = l^.pasaje.dias) AND (actualCod = l^.pasaje.codigo))do begin
-				writeln('tuvieja2');
+			while((l<>nil) AND (actualDia = l^.pasaje.dias) AND (actualCod = l^.pasaje.codigo))do begin
 				vc[l^.pasaje.medio]:= vc[l^.pasaje.medio] + 1; 
 				cantViajesDia:= cantViajesDia + 1;
 				gasto:= gastosPorViaje(l^.pasaje.medio) + gasto;
-				writeln('tuvieja3');
 				if(l^.pasaje.medio = 5)then bici:=true;
 				if(l^.pasaje.medio <> 5)then otro:=true;
 				l:=l^.sig;
-				writeln('tuvieja5');
 			end;
 			if(cantViajesDia > 6)then mas6viajes:= true;
-			writeln('tuvieja6');
 		end;
 		if(mas6viajes)then cant6viajes:= cant6viajes + 1;
 		if(gasto > 80)then cantGasto:= cantGasto + 1;
 		if(bici and otro)then cantCombo:= cantCombo + 1;
 	end;
-	writeln('tuvieja4');
 
 	for i:=1 to dCont do
 		maxTransporte(max1,max2,medio1,medio2,vc[i],i);
