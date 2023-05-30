@@ -23,7 +23,14 @@ type
 	vAlu = array[rangeAlumnos] of lista;
 
 	vcont = array[rangeCont] of integer;
-
+procedure crearListas(var v:vAlu);
+var
+	i:integer;
+begin
+	for i:=1 to df do begin
+		v[i]:= nil;
+	end;
+end;
 procedure initContador(var vc:vcont);
 var 
 	i:integer;
@@ -39,7 +46,6 @@ begin
 		readln(v.dias);
 		writeln('Ingresa el medio de transporte: 1. cole 2. cole2 3. tren 4. tren2 5. bici');
 		readln(v.medio);
-	end;
 end;
 procedure insertarViajeOrdenado(var l:lista;v:viaje);
 var
@@ -61,14 +67,17 @@ begin
 end;
 procedure cargarVector(var v:vAlu);
 var
-	v:viaje;
+	p:viaje;
+	codigo:integer;
 begin
 	writeln('Ingresa el código de alumno');
 	readln(codigo);
-	leerViaje(v);
+	leerViaje(p);
 	while(codigo <> 0)do begin
-		insertarViajeOrdenado(v[codigo],v);
-		leerViaje(v);
+		insertarViajeOrdenado(v[codigo],p);
+		leerViaje(p);
+		writeln('Ingresa el código de alumno');
+		readln(codigo);
 	end;
 end;
 function gastosPorViaje(transporte:integer):real;
@@ -94,49 +103,7 @@ begin
 		medio2:= medio;
 	end;
 end;
-procedure procesamientoViajes(l:lista;var vc:vcont);
-var
-	max1,i,max2,medio1,medio2,cantViajesDia,cant6viajes,cantGasto,cantCombo,actualCod,actualDia:integer;
-	gasto:real;
-	bici,otro,mas6viajes:boolean;
-begin
-	max1:= -32768;
-	cant6viajes:=0;
-	cantGasto:=0;
-	cantCombo:=0;
-	while(l <> nil)do begin
-		actualCod:= l^.pasaje.codigo;
-		gasto:=0;
-		bici:=false;otro:=false;
-		mas6viajes:= false;
-		while((l<> nil) AND (actualCod = l^.pasaje.codigo))do begin
-			actualDia:= l^.pasaje.dias;
-			cantViajesDia:=0;
-			while((l<>nil) AND (actualDia = l^.pasaje.dias) AND (actualCod = l^.pasaje.codigo))do begin
-				vc[l^.pasaje.medio]:= vc[l^.pasaje.medio] + 1; 
-				cantViajesDia:= cantViajesDia + 1;
-				gasto:= gastosPorViaje(l^.pasaje.medio) + gasto;
-				if(l^.pasaje.medio = 5)then bici:=true;
-				if(l^.pasaje.medio <> 5)then otro:=true;
-				l:=l^.sig;
-			end;
-			if(cantViajesDia > 6)then mas6viajes:= true;
-		end;
-		if(mas6viajes)then cant6viajes:= cant6viajes + 1;
-		if(gasto > 80)then cantGasto:= cantGasto + 1;
-		if(bici and otro)then cantCombo:= cantCombo + 1;
-	end;
-
-	for i:=1 to dCont do
-		maxTransporte(max1,max2,medio1,medio2,vc[i],i);
-
-	writeln('La cantidad de alumnos que hacen más de 6 viajes son: ', cant6viajes);
-	writeln('La cantidad de alumnos que gasta más de 80$ son: ',cantGasto);
-	writeln('La cantidad de alumnos que combinan con la bici son: ',cantCombo);
-	writeln('Los transporte más usados son ',medio1,' y ',medio2);
-
-end;
-procedure procesamientoViajes(v:vector;var vc:vcont);
+procedure procesamientoViajesVector(v:vAlu;var vc:vcont);
 var
 	max1,max2,medio1,medio2,cantViajesDia,cant6viajes,cantGasto,cantCombo,actualDia,i:integer;
 	gasto:real;
@@ -147,15 +114,17 @@ begin
 	cantGasto:=0;
 	cantCombo:=0;
 	for i:=1 to df do begin
+		gasto:=0;
+		bici:=false;otro:=false;mas6viajes:=false;
 		while(v[i] <> nil)do begin
-			actualDia:= l^.pasaje.dias;
+			actualDia:= v[i]^.pasaje.dias;
 			cantViajesDia:=0;
-			while((v[i] <> nil)AND(v[i]^.dia = actualDia)do begin
-				vc[l^.pasaje.medio]:= vc[l^.pasaje.medio] + 1; 
+			while((v[i] <> nil)AND(v[i]^.pasaje.dias = actualDia))do begin
+				vc[v[i]^.pasaje.medio]:= vc[v[i]^.pasaje.medio] + 1; 
 				cantViajesDia:= cantViajesDia + 1;
-				gasto:= gastosPorViaje(l^.pasaje.medio) + gasto;
-				if(l^.pasaje.medio = 5)then bici:=true;
-				if(l^.pasaje.medio <> 5)then otro:=true;
+				gasto:= gastosPorViaje(v[i]^.pasaje.medio) + gasto;
+				if(v[i]^.pasaje.medio = 5)then bici:=true;
+				if(v[i]^.pasaje.medio <> 5)then otro:=true;
 				v[i]:= v[i]^.sig;
 			end;
 			if(cantViajesDia > 6)then mas6viajes:= true;
@@ -174,11 +143,11 @@ begin
 	writeln('Los transporte más usados son ',medio1,' y ',medio2);
 end;
 var
-	l:lista;
+	v:vAlu;
 	vc:vcont;
 begin
-	l:=nil;
-	cargarLista(l);
+	crearListas(v);
+	cargarVector(v);
 	initContador(vc);
-	procesamientoViajes(l,vc);
+	procesamientoViajesVector(v,vc);
 end.
