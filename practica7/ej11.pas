@@ -115,7 +115,7 @@ begin
 	cantPersonas:= 0;
 	while(l<>nil)do begin
 		vc[l^.venta.codigo]:= vc[l^.venta.codigo] + (l^.venta.cant * v[l^.venta.codigo].precio);	
-		if(paresImpares(l^.venta.dni) AND (v[l^.venta.codigo].tipo = 3))then 
+		if(masPares(l^.venta.dni) AND (v[l^.venta.codigo].tipo = 3))then 
 			cantCondicion:= cantCondicion + 1;
 
 		if(l^.venta.codigo = 50)then
